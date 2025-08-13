@@ -81,19 +81,70 @@ const CheckoutForm = ({ onBack }) => {
     }
   };
 
-  const handlePayment = (method) => {
+  const handlePayment = async (method) => {
     setFormData(prev => ({ ...prev, metodo_pago: method }));
+    setIsProcessing(true);
     
-    // Simular procesamiento de pago
-    setTimeout(() => {
-      setStep(3);
-      clearCart();
+    try {
+      const orderData = {
+        customer: {
+          nombre: formData.nombre,
+          email: formData.email,
+          telefono: formData.telefono,
+          dni_rnc: formData.dni_rnc,
+          documento_tipo: formData.documento_tipo,
+          contacto_preferido: formData.contacto_preferido,
+          whatsapp: formData.whatsapp,
+          instagram: formData.instagram
+        },
+        shipping: {
+          provincia: formData.provincia,
+          ciudad: formData.ciudad,
+          direccion: formData.direccion,
+          codigo_postal: formData.codigo_postal,
+          referencias: formData.referencias
+        },
+        payment: {
+          metodo_pago: method,
+          total: getCartTotal()
+        },
+        items: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          selectedSize: item.selectedSize,
+          image: item.image
+        }))
+      };
+
+      console.log('Enviando orden:', orderData);
+
+      const response = await axios.post(`${API}/orders`, orderData);
+      
+      if (response.data.order_id) {
+        setOrderNumber(response.data.order_id);
+        setStep(3);
+        clearCart();
+        
+        toast({
+          title: "¡Pedido realizado con éxito!",
+          description: `Orden ${response.data.order_id} confirmada. Recibirás un email de confirmación.`,
+          duration: 5000,
+        });
+      }
+      
+    } catch (error) {
+      console.error('Error procesando la orden:', error);
       toast({
-        title: "¡Pedido realizado con éxito!",
-        description: "Recibirás un email de confirmación pronto.",
+        title: "Error procesando la orden",
+        description: error.response?.data?.detail || "Hubo un problema procesando tu pedido. Inténtalo de nuevo.",
+        variant: "destructive",
         duration: 5000,
       });
-    }, 2000);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (step === 3) {
