@@ -19,6 +19,8 @@ const CheckoutForm = ({ onBack }) => {
   const { cartItems, getCartTotal, clearCart } = useCart();
   const { toast } = useToast();
   const [step, setStep] = useState(1); // 1: info, 2: payment, 3: success
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [orderNumber, setOrderNumber] = useState('');
   const [formData, setFormData] = useState({
     // Información personal
     email: '',
