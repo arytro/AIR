@@ -162,6 +162,9 @@ const CheckoutForm = ({ onBack }) => {
             </p>
             <div className="bg-slate-50 rounded-lg p-4 mb-6">
               <p className="text-sm text-slate-600">
+                <strong>Número de orden:</strong> {orderNumber}
+              </p>
+              <p className="text-sm text-slate-600">
                 <strong>Total pagado:</strong> {formatPrice(getCartTotal())}
               </p>
               <p className="text-sm text-slate-600">
