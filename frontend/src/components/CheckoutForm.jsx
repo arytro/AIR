@@ -23,6 +23,11 @@ const CheckoutForm = ({ onBack }) => {
     nombre: '',
     telefono: '',
     
+    // Redes sociales (opcional)
+    contacto_preferido: 'whatsapp', // whatsapp o instagram
+    whatsapp: '',
+    instagram: '',
+    
     // Dirección
     provincia: '',
     ciudad: '',
