@@ -279,14 +279,14 @@ const CheckoutForm = ({ onBack }) => {
                     Comparte tu Instagram o WhatsApp para mantenernos en contacto
                   </p>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                   <div>
                     <Label htmlFor="contacto_preferido">Método de Contacto Preferido</Label>
                     <Select 
                       value={formData.contacto_preferido} 
                       onValueChange={(value) => handleInputChange('contacto_preferido', value)}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -296,29 +296,33 @@ const CheckoutForm = ({ onBack }) => {
                     </Select>
                   </div>
 
-                  {formData.contacto_preferido === 'whatsapp' && (
-                    <div>
-                      <Label htmlFor="whatsapp">WhatsApp</Label>
-                      <Input
-                        id="whatsapp"
-                        value={formData.whatsapp}
-                        onChange={(e) => handleInputChange('whatsapp', e.target.value)}
-                        placeholder="(809) 123-4567 o +1 809 123 4567"
-                      />
-                    </div>
-                  )}
+                  <div className="min-h-[80px]">
+                    {formData.contacto_preferido === 'whatsapp' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="whatsapp">WhatsApp</Label>
+                        <Input
+                          id="whatsapp"
+                          value={formData.whatsapp}
+                          onChange={(e) => handleInputChange('whatsapp', e.target.value)}
+                          placeholder="(809) 123-4567 o +1 809 123 4567"
+                          className="w-full"
+                        />
+                      </div>
+                    )}
 
-                  {formData.contacto_preferido === 'instagram' && (
-                    <div>
-                      <Label htmlFor="instagram">Instagram</Label>
-                      <Input
-                        id="instagram"
-                        value={formData.instagram}
-                        onChange={(e) => handleInputChange('instagram', e.target.value)}
-                        placeholder="@tu_usuario (sin el @)"
-                      />
-                    </div>
-                  )}
+                    {formData.contacto_preferido === 'instagram' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="instagram">Instagram</Label>
+                        <Input
+                          id="instagram"
+                          value={formData.instagram}
+                          onChange={(e) => handleInputChange('instagram', e.target.value)}
+                          placeholder="tu_usuario (sin el @)"
+                          className="w-full"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
 
