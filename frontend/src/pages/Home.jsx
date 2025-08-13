@@ -2,12 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { ArrowRight, Star, Shirt, Zap, Heart } from 'lucide-react';
+import { Badge } from '../components/ui/badge';
+import { ArrowRight, Star, Shirt, Zap, Heart, Truck, MapPin } from 'lucide-react';
 import { brandSlogan, brandMission } from '../mock';
 
 const Home = () => {
   return (
     <div className="min-h-screen">
+      {/* Shipping Notice Banner */}
+      <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center gap-2 text-sm font-medium">
+            <Truck className="h-4 w-4" />
+            <span>🇩🇴 Envío GRATIS a toda República Dominicana y Caribe Sur</span>
+            <MapPin className="h-4 w-4" />
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-50 via-white to-emerald-50 py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,6 +56,14 @@ const Home = () => {
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
+            </div>
+
+            {/* Shipping Info */}
+            <div className="mt-8 flex justify-center">
+              <Badge variant="outline" className="text-emerald-700 border-emerald-200 bg-emerald-50 px-4 py-2">
+                <Truck className="h-4 w-4 mr-2" />
+                Envío gratuito en pedidos
+              </Badge>
             </div>
           </div>
         </div>
@@ -171,6 +191,10 @@ const Home = () => {
               className="h-12 w-auto mx-auto mb-4"
             />
             <p className="text-slate-400 mb-4">{brandSlogan}</p>
+            <div className="flex items-center justify-center gap-2 text-emerald-400 mb-4">
+              <Truck className="h-4 w-4" />
+              <span className="text-sm">Envío gratuito a República Dominicana y Caribe Sur</span>
+            </div>
             <p className="text-slate-500 text-sm">© 2025 Air. Todos los derechos reservados.</p>
           </div>
         </div>
