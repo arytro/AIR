@@ -193,7 +193,7 @@ const Home = () => {
             <p className="text-slate-400 mb-4">{brandSlogan}</p>
             <div className="flex items-center justify-center gap-2 text-emerald-400 mb-4">
               <Truck className="h-4 w-4" />
-              <span className="text-sm">Envío gratuito a República Dominicana y Caribe Sur</span>
+              <span className="text-sm">Envío gratuito mediante Caribe Turs a República Dominicana</span>
             </div>
             <p className="text-slate-500 text-sm">© 2025 Air. Todos los derechos reservados.</p>
           </div>
