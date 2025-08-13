@@ -211,7 +211,7 @@ const CheckoutForm = ({ onBack }) => {
                 <CardHeader>
                   <CardTitle>Dirección de Envío</CardTitle>
                   <p className="text-sm text-slate-600">
-                    Enviamos únicamente a República Dominicana y Caribe Sur
+                    Enviamos mediante Caribe Turs a toda República Dominicana
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
