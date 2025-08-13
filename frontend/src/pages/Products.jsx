@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Search, Filter, Grid, List, Star, ShoppingCart } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
+import { Label } from '../components/ui/label';
+import { Search, Filter, Grid, List, Star, ShoppingCart, Plus } from 'lucide-react';
 import { mockProducts, mockCategories } from '../mock';
 import { useToast } from '../hooks/use-toast';
 
@@ -14,9 +17,12 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
   const [products, setProducts] = useState(mockProducts);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedSize, setSelectedSize] = useState('M');
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { addToCart } = useCart();
 
   // Extract category from URL params
   useEffect(() => {
@@ -55,17 +61,40 @@ const Products = () => {
     navigate(newUrl, { replace: true });
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product, size = selectedSize) => {
+    if (!product.inStock) {
+      toast({
+        title: "Producto agotado",
+        description: "Este producto no está disponible en este momento",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+
+    addToCart(product, size);
     toast({
-      title: "Producto agregado",
-      description: `${product.name} se agregó al carrito`,
+      title: "¡Agregado al carrito!",
+      description: `${product.name} (${size}) se agregó exitosamente`,
       duration: 3000,
     });
+    setSelectedProduct(null);
+  };
+
+  const handleQuickAdd = (product) => {
+    handleAddToCart(product, 'M');
   };
 
   const getCategoryName = (categoryId) => {
     const category = mockCategories.find(cat => cat.id === categoryId);
     return category ? category.name : categoryId;
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-DO', {
+      style: 'currency',
+      currency: 'DOP'
+    }).format(price);
   };
 
   return (
@@ -170,6 +199,14 @@ const Products = () => {
                       </Badge>
                     </div>
                   )}
+                  {product.inStock && (
+                    <Button
+                      onClick={() => handleQuickAdd(product)}
+                      className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-emerald-600 hover:bg-emerald-700 text-white p-2 h-auto"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               </div>
               
@@ -195,7 +232,7 @@ const Products = () => {
                   
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-2xl font-bold text-slate-900">
-                      ${product.price}
+                      {formatPrice(product.price)}
                     </span>
                     <div className="flex gap-1">
                       {product.sizes.map((size) => (
@@ -207,18 +244,77 @@ const Products = () => {
                   </div>
                 </div>
                 
-                <Button 
-                  onClick={() => handleAddToCart(product)}
-                  disabled={!product.inStock}
-                  className={`w-full transition-all duration-300 ${
-                    product.inStock
-                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white hover:scale-105'
-                      : 'bg-slate-200 text-slate-500 cursor-not-allowed'
-                  }`}
-                >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  {product.inStock ? 'Agregar al Carrito' : 'Agotado'}
-                </Button>
+                <div className="flex gap-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button 
+                        variant="outline"
+                        disabled={!product.inStock}
+                        className="flex-1"
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setSelectedSize('M');
+                        }}
+                      >
+                        Seleccionar Talla
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Seleccionar Talla</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="flex gap-4">
+                          <img
+                            src={selectedProduct?.image}
+                            alt={selectedProduct?.name}
+                            className="w-20 h-20 object-cover rounded-lg"
+                          />
+                          <div>
+                            <h4 className="font-medium">{selectedProduct?.name}</h4>
+                            <p className="text-sm text-slate-600">{formatPrice(selectedProduct?.price || 0)}</p>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="size">Talla</Label>
+                          <Select value={selectedSize} onValueChange={setSelectedSize}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {selectedProduct?.sizes.map((size) => (
+                                <SelectItem key={size} value={size}>
+                                  {size}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <Button 
+                          onClick={() => handleAddToCart(selectedProduct, selectedSize)}
+                          className="w-full bg-emerald-600 hover:bg-emerald-700"
+                        >
+                          <ShoppingCart className="h-4 w-4 mr-2" />
+                          Agregar al Carrito
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+
+                  <Button 
+                    onClick={() => handleQuickAdd(product)}
+                    disabled={!product.inStock}
+                    className={`px-3 ${
+                      product.inStock
+                        ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                        : 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                    }`}
+                  >
+                    <ShoppingCart className="h-4 w-4" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
