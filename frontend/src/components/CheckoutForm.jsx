@@ -388,7 +388,7 @@ const CheckoutForm = ({ onBack }) => {
 
               <div className="bg-emerald-50 p-3 rounded-lg">
                 <p className="text-xs text-emerald-700">
-                  🚚 Envío gratuito a toda República Dominicana y Caribe Sur
+                  🚚 Envío gratuito mediante Caribe Turs a toda República Dominicana
                 </p>
               </div>
             </CardContent>
