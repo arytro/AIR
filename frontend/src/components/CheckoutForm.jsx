@@ -419,9 +419,14 @@ const CheckoutForm = ({ onBack }) => {
                     variant="outline"
                     className="h-20 p-4 hover:border-emerald-500 hover:bg-emerald-50"
                     onClick={() => handlePayment('Visa')}
+                    disabled={isProcessing}
                   >
                     <div className="text-center">
-                      <CreditCard className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                      {isProcessing ? (
+                        <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-emerald-600" />
+                      ) : (
+                        <CreditCard className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                      )}
                       <span className="font-semibold text-blue-600">VISA</span>
                     </div>
                   </Button>
@@ -431,9 +436,14 @@ const CheckoutForm = ({ onBack }) => {
                     variant="outline"
                     className="h-20 p-4 hover:border-emerald-500 hover:bg-emerald-50"
                     onClick={() => handlePayment('Mastercard')}
+                    disabled={isProcessing}
                   >
                     <div className="text-center">
-                      <CreditCard className="h-8 w-8 mx-auto mb-2 text-red-500" />
+                      {isProcessing ? (
+                        <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-emerald-600" />
+                      ) : (
+                        <CreditCard className="h-8 w-8 mx-auto mb-2 text-red-500" />
+                      )}
                       <span className="font-semibold text-red-500">MASTERCARD</span>
                     </div>
                   </Button>
@@ -443,13 +453,26 @@ const CheckoutForm = ({ onBack }) => {
                     variant="outline"
                     className="h-20 p-4 hover:border-emerald-500 hover:bg-emerald-50"
                     onClick={() => handlePayment('Apple Pay')}
+                    disabled={isProcessing}
                   >
                     <div className="text-center">
-                      <Smartphone className="h-8 w-8 mx-auto mb-2 text-slate-800" />
+                      {isProcessing ? (
+                        <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-emerald-600" />
+                      ) : (
+                        <Smartphone className="h-8 w-8 mx-auto mb-2 text-slate-800" />
+                      )}
                       <span className="font-semibold text-slate-800">APPLE PAY</span>
                     </div>
                   </Button>
                 </div>
+
+                {isProcessing && (
+                  <div className="text-center mt-4">
+                    <p className="text-emerald-600 font-medium">
+                      Procesando tu pedido, por favor espera...
+                    </p>
+                  </div>
+                )}
 
                 <Button 
                   variant="ghost" 
