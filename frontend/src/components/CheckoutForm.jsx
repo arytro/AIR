@@ -8,8 +8,12 @@ import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Separator } from './ui/separator';
 import { Badge } from './ui/badge';
-import { ArrowLeft, CreditCard, Smartphone, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CreditCard, Smartphone, CheckCircle, Loader2 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const CheckoutForm = ({ onBack }) => {
   const { cartItems, getCartTotal, clearCart } = useCart();
