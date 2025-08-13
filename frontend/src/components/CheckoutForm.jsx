@@ -211,6 +211,57 @@ const CheckoutForm = ({ onBack }) => {
                 </CardContent>
               </Card>
 
+              {/* Contacto Adicional */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Contacto Adicional (Opcional)</CardTitle>
+                  <p className="text-sm text-slate-600">
+                    Comparte tu Instagram o WhatsApp para mantenernos en contacto
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="contacto_preferido">Método de Contacto Preferido</Label>
+                    <Select 
+                      value={formData.contacto_preferido} 
+                      onValueChange={(value) => handleInputChange('contacto_preferido', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="whatsapp">WhatsApp</SelectItem>
+                        <SelectItem value="instagram">Instagram</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {formData.contacto_preferido === 'whatsapp' && (
+                    <div>
+                      <Label htmlFor="whatsapp">WhatsApp</Label>
+                      <Input
+                        id="whatsapp"
+                        value={formData.whatsapp}
+                        onChange={(e) => handleInputChange('whatsapp', e.target.value)}
+                        placeholder="(809) 123-4567 o +1 809 123 4567"
+                      />
+                    </div>
+                  )}
+
+                  {formData.contacto_preferido === 'instagram' && (
+                    <div>
+                      <Label htmlFor="instagram">Instagram</Label>
+                      <Input
+                        id="instagram"
+                        value={formData.instagram}
+                        onChange={(e) => handleInputChange('instagram', e.target.value)}
+                        placeholder="@tu_usuario (sin el @)"
+                      />
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
               {/* Dirección de Envío */}
               <Card>
                 <CardHeader>
