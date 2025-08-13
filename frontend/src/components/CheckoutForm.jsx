@@ -279,14 +279,14 @@ const CheckoutForm = ({ onBack }) => {
                     Comparte tu Instagram o WhatsApp para mantenernos en contacto
                   </p>
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-8">
                   <div>
                     <Label htmlFor="contacto_preferido">Método de Contacto Preferido</Label>
                     <Select 
                       value={formData.contacto_preferido} 
                       onValueChange={(value) => handleInputChange('contacto_preferido', value)}
                     >
-                      <SelectTrigger className="mt-2">
+                      <SelectTrigger className="mt-3">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -296,10 +296,10 @@ const CheckoutForm = ({ onBack }) => {
                     </Select>
                   </div>
 
-                  <div className="min-h-[80px]">
+                  <div className="min-h-[120px] pt-4">
                     {formData.contacto_preferido === 'whatsapp' && (
-                      <div className="space-y-2">
-                        <Label htmlFor="whatsapp">WhatsApp</Label>
+                      <div className="space-y-3">
+                        <Label htmlFor="whatsapp">Número de WhatsApp</Label>
                         <Input
                           id="whatsapp"
                           value={formData.whatsapp}
@@ -311,8 +311,8 @@ const CheckoutForm = ({ onBack }) => {
                     )}
 
                     {formData.contacto_preferido === 'instagram' && (
-                      <div className="space-y-2">
-                        <Label htmlFor="instagram">Instagram</Label>
+                      <div className="space-y-3">
+                        <Label htmlFor="instagram">Usuario de Instagram</Label>
                         <Input
                           id="instagram"
                           value={formData.instagram}
