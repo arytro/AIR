@@ -14,7 +14,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-2 text-sm font-medium">
             <Truck className="h-4 w-4" />
-            <span>🇩🇴 Envío GRATIS a toda República Dominicana y Caribe Sur</span>
+            <span>🇩🇴 Envío GRATIS mediante Caribe Turs a toda República Dominicana</span>
             <MapPin className="h-4 w-4" />
           </div>
         </div>
